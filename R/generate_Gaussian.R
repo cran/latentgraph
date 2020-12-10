@@ -77,7 +77,7 @@ generate_Gaussian <- function(n,R,p,l,s,sparsityA,sparsityobserved,sparsitylaten
 
   # true graph
   inv_PartialSigma <- solve(partialSigma)
-  inv_PartialSigma <- ifelse(abs(inv_PartialSigma) < 1e-7, 0, 1)
+  inv_PartialSigma <- ifelse(abs(inv_PartialSigma) < 1e-7, 0, inv_PartialSigma)
   diag(inv_PartialSigma) <- 0
 
   return(list(X = X, truegraph = inv_PartialSigma))

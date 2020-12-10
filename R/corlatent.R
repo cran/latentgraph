@@ -50,6 +50,22 @@ corlatent <- function(data, accuracy, n, R, p, lambda1, lambda2, lambda3, distri
     }
   }
 
-  res <- theta_squarematrix(theta_hat,p,rule)
-  return(list(theta = res, penalties = c(lambda1, lambda2, lambda3)))
+  omega <- theta_squarematrix(theta_hat,p,rule)
+  
+  res <- omega
+  # AND rule
+  if (rule == "AND") {
+    res <- res!=0
+    res <- res*1
+    res <- res + t(res)
+    res[which(res==1)] <- 0
+    res <- res/2
+  }
+  # OR rule
+  if (rule == "OR") {
+    res <- (res+t(res))/2
+  }
+  res <- res!=0
+  res <- res*1
+  return(list(omega=omega, theta = res, penalties = c(lambda1, lambda2, lambda3)))
 }

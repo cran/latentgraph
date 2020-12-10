@@ -38,13 +38,14 @@ semilatent <- function(data, n, R, p, lambda, distribution = "Gaussian", rule = 
   newdata <- transformDataReplicates(dat,n,p,rep(R,n))
 
   if (distribution == "Gaussian") {
-    res <- semigraph_GGM(newdata,n,p,lambda)$beta
+    omega <- semigraph_GGM(newdata,n,p,lambda)$beta
   }
 
   if (distribution == "Ising") {
-    res <- semigraph_Ising(newdata,n,p,lambda)$beta
+    omega <- semigraph_Ising(newdata,n,p,lambda)$beta
   }
-
+  
+  res <- omega
   # AND rule
   if (rule == "AND") {
     res <- res!=0
@@ -59,5 +60,5 @@ semilatent <- function(data, n, R, p, lambda, distribution = "Gaussian", rule = 
   
   rr <- res!=0
   rr <- rr*1
-  return(list(theta = rr, penalty = lambda))
+  return(list(omega=omega, theta = rr, penalty = lambda))
 }

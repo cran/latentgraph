@@ -15,8 +15,8 @@ lvglasso <- function(data, n, p, lambda1, lambda2, rule = "AND"){
   }
 
   Sigmahat <- var(dat)
-  res <- lvglasso_calc(Sigmahat,lambda1,lambda2,convergence=1e-10,maxiter=1000,rho=2.5)$S
-
+  omega <- lvglasso_calc(Sigmahat,lambda1,lambda2,convergence=1e-10,maxiter=1000,rho=2.5)$S
+  res <- omega
   # AND rule
   if (rule == "AND") {
     res <- res!=0
@@ -32,5 +32,5 @@ lvglasso <- function(data, n, p, lambda1, lambda2, rule = "AND"){
   res <- res!=0
   res <- res*1
 
-  return(list(theta = res, penalties = c(lambda1, lambda2)))
+  return(list(omega=omega, theta = res, penalties = c(lambda1, lambda2)))
 }
